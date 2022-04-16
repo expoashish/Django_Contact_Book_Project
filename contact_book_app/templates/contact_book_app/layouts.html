@@ -1,0 +1,173 @@
+{% load static from static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Contact Book </title>
+  <link rel="icon" type="image/x-icon" href="{% static 'contact_book_app/img/ashish.png' %}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style>
+    .fa {
+      padding: 5px;
+      font-size: 25px;
+      width: 50px;
+    }
+    .inputfield input{
+      margin-bottom: 10px;
+    }
+    .inputlabel label{
+      margin-bottom: 17px;
+    }
+  </style>
+</head>
+<body>
+
+<div>
+  <nav class="navbar navbar bg-primary navbar-dark">
+    <div class="col-sm-6">
+      <a href="/"><img src="{% static 'contact_book_app/img/anurag.webp' %}" width="40" height="40"></a>
+      <a class="navbar-brand" href="/"> Contact </a>
+    </div>
+        <div class="col-sm-6" style="text-align:right;">
+          <a class="navbar-brand" href="/"> Home </a>
+          <a class="navbar-brand" href="/aboutus"> About Us </a>
+          <a class="navbar-brand" href="/contactus"> Contact Us </a>
+          {% if user.is_authenticated %}
+            <a class="navbar-brand" href="/logout">LOGOUT</a>
+            <a class="navbar-brand" href="/userprofile">Welcome-{{user.username}}</a>
+          {% else %}
+            <a class="navbar-brand" href="/loginpage"> LOGIN </a>
+            <a class="navbar-brand" href="/register"> SIGN UP </a>
+          {% endif %}
+        </div>
+    </div>
+  </nav>
+</div>
+{% include 'contact_book_app/messages.html' %}
+  
+<div style="min-height: 90vh">
+  {% block content %}
+
+  {% endblock %}
+</div>
+
+<footer
+        class="text-center text-lg-start text-white"
+        style="background-color: #1c2331"
+        >
+  <!-- Section: Social media -->
+  <section
+           class="d-flex justify-content-between p-4"
+           style="background-color: #6351ce"
+           >
+    <!-- Left -->
+    <div class="me-5">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <!-- Left -->
+
+    <!-- Right -->
+    <div style="padding-right:50px;">
+      <a href="https://www.facebook.com/bestcodecreator" class="text-white me-4" style="margin-right:8px;">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://twitter.com/expoashish" class="text-white me-4" style="margin-right:8px;">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.google.com/" class="text-white me-4" style="margin-right:8px;">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="https://www.instagram.com/expoashish/" class="text-white me-4" style="margin-right:8px;">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/expoashish/" class="text-white me-4" style="margin-right:8px;">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/expoashish  " class="text-white me-4" style="margin-right:8px;">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold">Contact Management System</h6>
+          <hr
+              class="mb-4 mt-0 d-inline-block mx-auto"
+              style="width: 60px; background-color: #7c4dff; height: 2px"
+              />
+          <p style="text-align:left;">
+            Contact management is a means of entering customer and lead data for storage, quick access, editing and tracking. Contact management can be as simple as a spreadsheet or as complex as customer relationship management (CRM) software.
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 text-left">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold">Pages</h6>
+          <hr
+              class="mb-4 mt-0 d-inline-block mx-auto"
+              style="width: 60px; background-color: #7c4dff; height: 2px"
+              />
+              <div style="text-align:left;">
+                <a href="/" class="text-white">Home</a></br>
+                <a href="/aboutus" class="text-white">About Us</a></br>
+                <a href="/contactus" class="text-white">Contact Us</a>
+              </div>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 text-left" >
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold">Contact</h6>
+          <hr
+              class="mb-4 mt-0 d-inline-block mx-auto"
+              style="width: 60px; background-color: #7c4dff; height: 2px"
+              />
+              <div style="text-align:left;">
+                <p><i class="fas fa-home mr-3"></i> New Delhi, ND 110082, INDIA</p>
+                <p><i class="fas fa-envelope mr-3"></i> expoashish@gmail.com</p>
+                <p><i class="fas fa-phone mr-3"></i> +91 9876543289</p>
+                <p><i class="fas fa-print mr-3"></i> +91 9878979556</p>
+              </div>
+
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div
+       class="text-center p-3"
+       style="background-color: rgba(0, 0, 0, 0.2)"
+       >
+    <a class="text-white" href="/"
+       >Contact Management System</a
+      >
+  </div>
+</footer>
+</div>
+</body>
+</html>
+
+

@@ -1,0 +1,346 @@
+{% extends './layouts.html' %}
+{% load static from static %}
+{% block content %}
+{% block header %}
+<head>
+<style>
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+
+.about-section {
+  padding: 30px;
+  text-align: center;
+  color: black;
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+
+.center {
+   position: absolute;
+   top: 20%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: black;
+   font-size: 50px;
+   text-align: center;
+   padding-top: 20px;
+}
+
+
+.container-fluid {
+    background-color: #010449
+}
+
+.msg-form {
+    background-color: white;
+    padding: 20px
+}
+
+.pad-icon {
+    padding-top: 50px;
+    padding-left: 20px
+}
+
+.pad-icon a {
+    text-decoration: none;
+    margin-right: 40px
+}
+
+.input-group input:focus {
+    border: 1px solid blue
+}
+
+.pad-icon a:active {
+    height: 30px;
+    width: 30px;
+    background-color: #0080ff;
+    border-radius: 100%
+}
+
+.links {
+    padding-top: 50px;
+    width: 50%
+}
+
+#bordering a:active {
+    border: 1px solid #0080ff
+}
+
+@media(min-width:568px) {
+    .container-fluid {
+        margin: 100px 30px;
+        width: 96%;
+        padding-top: 50px;
+        padding-bottom: 50px
+    }
+}
+
+.wrapper{
+
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+
+.button7{
+    background-color:#2979FF
+    display:inline-block;
+    padding:0.7em 1.7em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:900;
+    color:#FFFFFF;
+    background-color:#3369ff;
+    box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
+    position:relative;
+    }
+
+
+
+@media(max-width:567px) {
+    .container-fluid {
+        margin: 10px 10px;
+        width: 94%;
+        padding-top: 20px;
+        padding-bottom: 20px
+    }
+
+    .pad {
+        padding-top: 20px
+    }
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+
+}
+</style>
+</head>
+<div style="padding-bottom:45px;">
+  <img src="{% static 'contact_book_app/img/main.png' %}" alt="contact" style="width:100%;">
+  <div class="caption center" style="margin-top:50px;"><b>Contact Management System</b></div>
+</div>
+{% endblock %}
+
+
+
+{% if user.is_authenticated %}
+
+    <h1 class="text-center container mb-4" style="color:blue"><b> Contact's</b> <a href="add" class="btn btn-primary float-right">New Contact</a></h1>
+    {% if latest_contact_list %}
+    <table class="table table-hover container">
+    		<thead>
+    			<tr>
+    				<th>Profile</th>
+    				<th>Name</th>
+    				<th>Mobile No</th>
+    				<th>Address</th>
+    				<th>Email</th>
+    				<th>Action</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			{% for contact in latest_contact_list%}
+    			<tr>
+    				<td>
+    					{% if contact.profile %}
+    						<img src="{{ contact.profile.url }}" width="40" height="40">
+    					{% endif %}
+    					
+    				</td>
+    				<td>{{ contact.name }}</td>
+    				<td>{{ contact.mobile_no}}</td>
+    				<td>{{ contact.address }}</td>
+    				<td>{{ contact.email }}</td>
+    				<td>
+    					<a class="btn btn-info" href="{% url 'contact_book_app:detail_contact' contact.id %}">View</a>
+    				</td>
+    				<td>
+    					<a class="btn btn-primary" href="{% url 'contact_book_app:edit_contact' contact.id %}" role="button">Edit</a>
+    				</td>
+    			    <td class="float-right">
+    				<form class="flex-container" method="POST" action="{% url 'contact_book_app:delete_contact' contact.id %}" > 
+    	              {% csrf_token %}
+    	              <div class="input-group"> 
+    	                <input type="hidden" name="contact_id" value="{{ contact.id }}">
+    	                <button name="delete" type="submit" class="btn btn-danger">Delete </button>
+    	              </div> 
+    	            </form>
+    				<td>
+    			</tr>
+    			{% endfor %}
+    			</tbody>
+    	</table>
+    	{% else %}
+    	<p>No Contact List</p>
+    {% endif %}
+
+{% else %}
+    <div class="wrapper">
+        <a href="{% url 'contact_book_app:register' %}" class="button7">Create Your First Contact</a>
+    </div>
+{% endif %}
+
+
+
+
+<div class="container">
+
+<div class="row" style="padding-top:50px;">
+	<div class="col-md-6">
+		<img src="{% static 'contact_book_app/img/image5.jpg' %}" alt="Contact Management System" width="600" height="460">
+	</div>
+	<div class="col-md-6">
+		<h2 style="font-size:40px;"><b>CONTACT MANAGEMENT</b></h2>
+	<p style="margin-top:30px;">Contact management is a means of entering customer and lead data for storage, quick access, editing and tracking. Contact management can be as simple as a spreadsheet or as complex as customer relationship management (CRM) software. The information can include addresses, phone numbers, emails, social media handles, orders, open quotes, sales history, associated companies, and so on.</p>
+  </div>
+</div>
+
+<div class="row" style="padding-top:50px;">
+	<div class="col-md-6">
+	<h2 style="font-size:40px;"><b>BETTER COLLABORATION</b></h2>
+	<p style="margin-top:30px;">As the entire team can view the data, it increases visibility and transparency. As a result, it streamlines workflows, reduces frequent meetings, results in fewer mistakes, and keeps everyone in the loop.</p>
+  </div>
+  <div class="col-md-6">
+		<img src="{% static 'contact_book_app/img/image2.png' %}" alt="Contact Management System" width="600" height="460">
+	</div>
+</div>
+
+
+<h2 style="text-align:center; padding:40px;"><b>Our Team</b></h2>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <center><img src="{% static 'contact_book_app/img/anurag.webp' %}" alt="Jane" style="width:50%; padding:10px;"></center>
+      <div class="container">
+        <h2>Anurag Jha</h2>
+        <p class="title">Team Member</p>
+        <p>Handled Project Report</p>
+        <p>anurag@gmail.cocm</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <center><img src="{% static 'contact_book_app/img/aditya.png' %}" alt="Jane" style="width:50%; padding:10px;"></center>
+      <div class="container">
+        <h2>Aditya Rai</h2>
+        <p class="title">Team Member</p>
+        <p>Handled HTML, CSS and Bootstrap</p>
+        <p>aditya@gmail.com</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="column">
+    <div class="card">
+      <center><img src="{% static 'contact_book_app/img/ashish.png' %}" alt="Jane" style="width:50%; padding:10px;"></center>
+      <div class="container">
+        <h2>Ashish Yadav</h2>
+        <p class="title">Team Member</p>
+        <p>Handled Python and Django</p>
+        <p>expoashish@gmail.com</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid rounded">
+    <div class="row px-5">
+        <div class="col-sm-6">
+            <div>
+                <h3 class="text-white">GET IN TOUCH</h3>
+                <p class="text-white">Fill up the form and our Team will get back to you within in 24 hours..</p>
+            </div>
+            <div class="row">
+                <div class="links" id="bordering" >
+                    <div class="row">
+                        <a href="#" class="btn rounded text-white p-3" >
+                            <i class="fa fa-map-marker icon text-primary pr-3"></i>New Delhi-110080, INDIA</a>
+                    </div>
+                    <div class="row">
+                        <a href="#" class="btn rounded text-white p-3" class="text-left">
+                            <i class="fa fa-phone icon text-primary pr-3"></i>+91 9876543289</a>
+                    </div>
+                    <div class="row">
+                    <a href="#" class="btn rounded text-white p-3" >
+                        <i class="fa fa-envelope icon text-primary pr-3"></i>expoashish@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 pad">
+            <form class="rounded msg-form" id="contact-form" name="contact-form" 
+            action="{% url 'contact_book_app:index_message'%}" method="POST">
+                {% csrf_token %}
+                <div class="form-group"> 
+                    <label for="id_name" class="h6">Name</label>
+                    <div class="input-group border rounded">
+                        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-address-book text-primary"></i> </div> 
+                        <input type="text" class="form-control border-0" required id="id_name" name="name">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <label for="id_subject" class="h6">Subject</label>
+                    <div class="input-group border rounded">
+                        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-pencil-square text-primary"></i> </div> 
+                        <input type="text" class="form-control border-0" required id="id_subject" name="subject">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <label for="id_email" class="h6">Email</label>
+                    <div class="input-group border rounded">
+                        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-envelope text-primary"></i> </div> 
+                        <input type="text" class="form-control border-0" required id="id_email" name="email">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <label for="id_message" class="h6">Message</label> <textarea name="message" id="msgus" cols="10" rows="5" class="form-control bg-light" placeholder="Message"></textarea> </div>
+                <div class="form-group d-flex justify-content-end"> 
+                <input type="submit" class="btn btn-primary text-white" onclick="document.getElementById('contact-form').submit();" value="Submit" required id="id_messaged"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock content %}
